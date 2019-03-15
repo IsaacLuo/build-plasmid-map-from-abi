@@ -15,17 +15,25 @@ class BlastPlasmid:
         self.result = None
         self.filePath = os.path.join("tmp",randomFileName)
         with open(self.filePath, "w") as f:
+            f.write('>seq1\n')
             f.write(plasmidSeq)
             f.write("\n")
 
-    def blast(self, abiSeq):
-        process = subprocess.Popen(('blastn -subject %s -outfmt 5'%self.filePath).split(' '), stdout=subprocess.PIPE, stdin=subprocess.PIPE, universal_newlines=True)
-        out = process.communicate(input=abiSeq)[0]
+    def blast6(self, abiSeq):
+        randomFileName = os.path.join("tmp", ''.join(random.choice(string.ascii_uppercase+string.digits) for _ in range(10))+".tmp")
+        with open(randomFileName, "w") as f:
+            f.write('>seq2\n')
+            f.write(abiSeq)
+            f.write("\n")
+
+        process = subprocess.Popen(('blastn -subject {} -query {} -outfmt 6'.format(self.filePath, randomFileName)).split(' '), stdout=subprocess.PIPE, universal_newlines=True)
+        # out = process.communicate(input=abiSeq)[0]
+        out = process.communicate()[0]
         #debug save xml
-        #with open("lastxml.txt","w") as f:
-            #f.write(out)
-            
-        self.result = xmltodict.parse(out)
+        if out == '':
+            return {}
+        data = out.split('	')
+        self.result = {'subFrom': data[8], 'subTo': data[9], 'queryFrom': data[6], 'queryTo': data[7]}
 
         #sys.stderr.write(json.dumps(self.result))
         #subprocess.call(['rm',self.filePath])

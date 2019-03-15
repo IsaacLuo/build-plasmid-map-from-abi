@@ -1,0 +1,7 @@
+# BLASTN 2.8.1+
+# Query: seq2
+# Database: User specified sequence set (Input: tmp\89EXIRNW66.tmp)
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+seq2	seq1	93.989	366	5	17	2	352	646	1009	1.00e-156	538
+# BLAST processed 1 queries

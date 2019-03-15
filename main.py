@@ -18,5 +18,10 @@ for file in dirs:
 
 # print(len(sequences))
 
-bm = BlastPlasmid(sequences[0])
-s = bm.blast(sequences[0])
+l = len(sequences)
+for i in range(l):
+    bm = BlastPlasmid(sequences[i])
+    for j in range(i+1,l):    
+        match = bm.blast6(sequences[j])
+        print(i,j, len(sequences[i]), len(sequences[j]))
+        print(match)
